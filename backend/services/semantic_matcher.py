@@ -29,8 +29,10 @@ def _get_model() -> SentenceTransformer:
     return SentenceTransformer(MODEL_NAME)
 
 
-def _chunk(text: str, max_chars: int = 800) -> list[str]:
+def _chunk(text: str, max_chars: int = 800) -> list[str]:#Splits long text into smaller chunks.
+   # Reason SBERT has a maximum input length.Large resumes cannot be processed all at once.
     paras = [p.strip() for p in (text or "").split("\n") if p.strip()]
+    #Splits the text into paragraphs and removes empty lines.
     chunks, current = [], ""
     for p in paras:
         if len(current) + len(p) + 1 > max_chars and current:
