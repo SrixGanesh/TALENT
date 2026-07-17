@@ -15,19 +15,24 @@
 # `spacy.load("en_core_web_sm")` — everything else here is unaffected.
 # ============================================================
 
-import re
+import re##Regular Expression module.
 from functools import lru_cache
 
 import spacy
-from spacy.matcher import PhraseMatcher
+from spacy.matcher import PhraseMatcher#PhraseMatcher import pannrom.
 
 from skills_data import SKILLS
+#SKILLS = {
+#"Python":[
+#"python3",
+#"python"
+#],
+#}
 
-
-@lru_cache(maxsize=1)
+@lru_cache(maxsize=1)#Only one object save pannum.
 def _get_nlp_and_matcher():
-    nlp = spacy.blank("en")
-    matcher = PhraseMatcher(nlp.vocab, attr="LOWER")
+    nlp = spacy.blank("en")#Only tokenizer.
+    matcher = PhraseMatcher(nlp.vocab, attr="LOWER")#Case insensitive.
 
     # canonical_by_pattern maps every alias's spaCy match_id back to the
     # ONE canonical skill name, so "k8s" and "kubernetes" both resolve
@@ -38,23 +43,23 @@ def _get_nlp_and_matcher():
         patterns = [nlp.make_doc(canonical)] + [nlp.make_doc(a) for a in aliases]
         matcher.add(label, patterns)
         canonical_by_label[label] = canonical
-
+#Resume la Worked on K8S. then Output Kubernetes
     return nlp, matcher
 
 
 def extract_skills(text: str) -> list[str]:
     """Returns a sorted list of canonical skill names found in `text`."""
-    if not text or not text.strip():
+    if not text or not text.strip(): #Empty string check.
         return []
-    nlp, matcher = _get_nlp_and_matcher()
-    doc = nlp(text)
-    matches = matcher(doc)
-    found = {nlp.vocab.strings[match_id] for match_id, start, end in matches}
-    return sorted(found)
+    nlp, matcher = _get_nlp_and_matcher() #Cached objects retrieve pannrom.
+    doc = nlp(text)#Text tokenize pannudhu. (Python Django Flask)
+    matches = matcher(doc)#matcher id creation eg:python=id(0,1)
+    found = {nlp.vocab.strings[match_id] for match_id, start, end in matches}#Match IDs convert into names.
+    return sorted(found)#Alphabetical order.
 
 
-_EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
-_PHONE_RE = re.compile(r"(\+?\d[\d\s-]{8,14}\d)")
+_EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")#Regex compile pannrom.
+_PHONE_RE = re.compile(r"(\+?\d[\d\s-]{8,14}\d)")#Phone detect. eg: 9876543210
 
 
 def extract_contact_hints(text: str) -> dict:
