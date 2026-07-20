@@ -1,27 +1,6 @@
-# ============================================================
-# TalentSphere AI — Python analysis service
-#
-# Owns exactly the two stages of the flow that need real NLP libraries
-# (spaCy, SBERT), which can't run in-browser:
-#
-#   Resume text --> [spaCy PhraseMatcher] --> skills found
-#                --> [SBERT MiniLM]       --> semantic similarity
-#                --> blended 0-100 score, matched/missing skills
-#
-# Everything before this (upload/text extraction) and after this
-# (Groq/Llama explanation + interview questions) stays in the React
-# app exactly as it already is — this service only replaces the
-# "Skills Extraction" + "Semantic Match" boxes in the flow diagram.
-#
-# Run:
-#   pip install -r requirements.txt
-#   python -m spacy download en_core_web_sm   # optional, see skill_extractor.py
-#   uvicorn main:app --reload --port 8000
-# ============================================================
-
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from fastapi.middleware.cors import CORSMiddleware#frontend vera port-lendhu backend call 
+from pydantic import BaseModel, Field#Request/response data
 
 from services.skill_extractor import extract_skills, extract_contact_hints, _get_nlp_and_matcher
 from services.semantic_matcher import semantic_similarity, semantic_missing_skill_hints, _get_model
