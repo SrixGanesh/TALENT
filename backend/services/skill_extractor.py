@@ -1,19 +1,3 @@
-# ============================================================
-# spaCy-based skill extraction.
-#
-# Uses a blank English pipeline (tokenizer only — no need for the full
-# en_core_web_sm tagger/parser/NER just to match phrases, which keeps
-# this fast and avoids the ~15-40MB model download if you don't need
-# NER elsewhere). PhraseMatcher does case-insensitive, multi-word,
-# alias-aware matching over the SKILLS taxonomy in skills_data.py —
-# this is the direct upgrade over the JS regex version in
-# src/lib/resumeAnalyzer.js, which only recognises the exact canonical
-# spelling.
-#
-# If you later want name/organisation NER too (e.g. to double-check
-# extractNameGuess from the frontend), swap `spacy.blank("en")` for
-# `spacy.load("en_core_web_sm")` — everything else here is unaffected.
-# ============================================================
 
 import re##Regular Expression module.
 from functools import lru_cache
