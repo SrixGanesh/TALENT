@@ -1,21 +1,3 @@
-# ============================================================
-# SBERT semantic similarity between resume and job description.
-#
-# Model: sentence-transformers/all-MiniLM-L6-v2 — the standard "good
-# default" SBERT model: 384-dim embeddings, ~90MB, fast enough to run
-# per-request on CPU (no GPU needed), and trained specifically for
-# semantic-similarity/paraphrase tasks (unlike raw TF-IDF, it catches
-# "led a team of engineers" ~ "engineering leadership experience" even
-# though they share almost no literal words).
-#
-# Chunking: SBERT models truncate long input (~256 word-pieces), so a
-# 2-page resume fed in whole would silently lose everything after the
-# first few hundred words. Instead we split the resume into paragraphs,
-# embed each chunk separately, embed the job text once, and take the
-# MAX cosine similarity across chunks — i.e. "does *any* part of this
-# resume closely match the job", which is more forgiving of resumes
-# that front-load an unrelated summary/objective section.
-# ============================================================
 
 from functools import lru_cache
 
