@@ -1,16 +1,9 @@
--- ============================================================
--- TalentSphere AI — multi-tenant schema (Supabase / Postgres)
--- Run this in Supabase SQL editor once, on a fresh project.
--- Auth (login/password/session) is handled by Supabase Auth
--- (auth.users). These tables hold the *profile* data on top of it.
--- ============================================================
 
--- ---------- COMPANIES -----------------------------------------------------
 create table if not exists companies (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   industry text,
-  size text,               -- e.g. "1-10", "11-50", "51-200", "200+"
+  size text,              
   website text,
   about text,
   created_at timestamptz default now()
@@ -96,11 +89,7 @@ create table if not exists applications (
 );
 
 -- ---------- NOTIFICATIONS ---------------------------------------------------
--- In-app inbox for candidates. Written by HR's shortlist/reject decision
--- (see updateApplicationStatus + createNotification in db.js) instead of a
--- real outbound email — there's no email backend configured for this
--- prototype. 'hired' fires on shortlist, 'rejected' fires with an
--- AI-generated skill-gap note, mirroring what a formal email would say.
+
 create table if not exists notifications (
   id uuid primary key default gen_random_uuid(),
   candidate_id uuid not null references candidates(id) on delete cascade,
