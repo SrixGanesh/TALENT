@@ -28,7 +28,7 @@ def _chunk(text: str, max_chars: int = 800) -> list[str]:#Splits long text into 
 
 
 def semantic_similarity(resume_text: str, job_text: str) -> float:
-    """Returns a 0.0-1.0 similarity score (cosine sim, clamped)."""
+    
     if not resume_text.strip() or not job_text.strip():
         return 0.0
 
